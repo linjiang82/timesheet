@@ -24,15 +24,15 @@
   </view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { submitExpense } from '@/utils/expense'
+import { submitExpense, type ExpenseEntry } from '@/utils/expense'
 
-const form = ref(null)
+const form = ref<any>(null)
 const uploading = ref(false)
-const formData = reactive({
+const formData = reactive<ExpenseEntry>({
   date: new Date().toISOString().split('T')[0],
-  amount: '',
+  amount: 0,
   category: 'Meal',
   receipt_image_url: '',
   description: ''

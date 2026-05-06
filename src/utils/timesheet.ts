@@ -2,9 +2,19 @@
  * Timesheet utility
  */
 
-export async function submitTimesheet(data) {
+export interface TimesheetEntry {
+  _id?: string;
+  user_id?: string;
+  date: string;
+  hours: number;
+  description: string;
+  status?: 'pending' | 'approved' | 'rejected';
+  manager_comment?: string;
+}
+
+export async function submitTimesheet(data: TimesheetEntry): Promise<any> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'timesheets',
       data: {
         action: 'create',
@@ -17,7 +27,7 @@ export async function submitTimesheet(data) {
     } else {
       throw new Error(res.result.message || 'Submission failed')
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Timesheet error:', err)
     uni.showToast({
       title: err.message || 'Submission failed',
@@ -27,9 +37,9 @@ export async function submitTimesheet(data) {
   }
 }
 
-export async function getMyTimesheets() {
+export async function getMyTimesheets(): Promise<TimesheetEntry[]> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'timesheets',
       data: {
         action: 'listMine'

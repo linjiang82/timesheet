@@ -15,14 +15,14 @@
   </view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { submitTimesheet } from '@/utils/timesheet'
+import { submitTimesheet, type TimesheetEntry } from '@/utils/timesheet'
 
-const form = ref(null)
-const formData = reactive({
+const form = ref<any>(null)
+const formData = reactive<TimesheetEntry>({
   date: new Date().toISOString().split('T')[0],
-  hours: '',
+  hours: 0,
   description: ''
 })
 

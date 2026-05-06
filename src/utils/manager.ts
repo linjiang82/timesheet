@@ -2,9 +2,17 @@
  * Manager utility
  */
 
-export async function getPendingSubmissions() {
+import type { TimesheetEntry } from './timesheet';
+import type { ExpenseEntry } from './expense';
+
+export interface PendingData {
+  timesheets: TimesheetEntry[];
+  expenses: ExpenseEntry[];
+}
+
+export async function getPendingSubmissions(): Promise<PendingData> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'manager',
       data: {
         action: 'listPending'
@@ -22,9 +30,9 @@ export async function getPendingSubmissions() {
   }
 }
 
-export async function approveSubmission(type, id, comment) {
+export async function approveSubmission(type: 'timesheets' | 'expenses', id: string, comment?: string): Promise<any> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'manager',
       data: {
         action: 'approve',
@@ -39,7 +47,7 @@ export async function approveSubmission(type, id, comment) {
     } else {
       throw new Error(res.result.message || 'Approval failed')
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Manager error:', err)
     uni.showToast({
       title: err.message || 'Approval failed',
@@ -49,9 +57,9 @@ export async function approveSubmission(type, id, comment) {
   }
 }
 
-export async function rejectSubmission(type, id, comment) {
+export async function rejectSubmission(type: 'timesheets' | 'expenses', id: string, comment?: string): Promise<any> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'manager',
       data: {
         action: 'reject',
@@ -66,7 +74,7 @@ export async function rejectSubmission(type, id, comment) {
     } else {
       throw new Error(res.result.message || 'Rejection failed')
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Manager error:', err)
     uni.showToast({
       title: err.message || 'Rejection failed',

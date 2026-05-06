@@ -59,17 +59,17 @@
   </view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getPendingSubmissions, approveSubmission, rejectSubmission } from '@/utils/manager'
+import { getPendingSubmissions, approveSubmission, rejectSubmission, type PendingData } from '@/utils/manager'
 import { getReportData, generateCSV } from '@/utils/report'
 
 const currentTab = ref(0)
-const pending = ref({ timesheets: [], expenses: [] })
-const popup = ref(null)
+const pending = ref<PendingData>({ timesheets: [], expenses: [] })
+const popup = ref<any>(null)
 const comment = ref('')
-const actionType = ref('')
-const selectedType = ref('')
+const actionType = ref<'approve' | 'reject' | ''>('')
+const selectedType = ref<'timesheets' | 'expenses' | ''>('')
 const selectedId = ref('')
 
 const reportPeriod = ref(new Date().toISOString().substring(0, 7))

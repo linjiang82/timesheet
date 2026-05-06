@@ -2,9 +2,17 @@
  * Report utility
  */
 
-export async function getReportData(period) {
+import type { TimesheetEntry } from './timesheet';
+import type { ExpenseEntry } from './expense';
+
+export interface ReportData {
+  timesheets: TimesheetEntry[];
+  expenses: ExpenseEntry[];
+}
+
+export async function getReportData(period: string): Promise<ReportData> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'report',
       data: {
         action: 'getSummary',
@@ -23,7 +31,7 @@ export async function getReportData(period) {
   }
 }
 
-export function generateCSV(data) {
+export function generateCSV(data: ReportData): string {
   let csv = 'Date,Type,Amount/Hours,Description,Category\n'
   
   data.timesheets.forEach(item => {

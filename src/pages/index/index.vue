@@ -24,11 +24,11 @@
   </view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { login } from '@/utils/auth'
+import { login, type UserInfo } from '@/utils/auth'
 
-const userInfo = ref(null)
+const userInfo = ref<UserInfo | null>(null)
 
 onMounted(() => {
   userInfo.value = uni.getStorageSync('userInfo')

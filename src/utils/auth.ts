@@ -2,9 +2,23 @@
  * Auth utility for WeChat Mini Program
  */
 
-export async function login() {
+export interface UserInfo {
+  _id: string;
+  openid: string;
+  role: 'employee' | 'manager';
+  nickname?: string;
+  avatar_url?: string;
+}
+
+export interface AuthResponse {
+  code: number;
+  message?: string;
+  userInfo: UserInfo;
+}
+
+export async function login(): Promise<AuthResponse> {
   try {
-    const [loginRes] = await uni.login({
+    const [loginRes]: any = await uni.login({
       provider: 'weixin'
     })
     
@@ -12,7 +26,7 @@ export async function login() {
       throw new Error('Login failed: No code returned')
     }
 
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'auth',
       data: {
         action: 'login',
@@ -26,7 +40,7 @@ export async function login() {
     } else {
       throw new Error(res.result.message || 'Login failed')
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Auth error:', err)
     uni.showToast({
       title: err.message || 'Login failed',
@@ -36,6 +50,6 @@ export async function login() {
   }
 }
 
-export function getUserRole(userInfo) {
+export function getUserRole(userInfo: UserInfo | null): string | null {
   return userInfo ? userInfo.role : null
 }

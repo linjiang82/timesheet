@@ -2,9 +2,21 @@
  * Expense utility
  */
 
-export async function submitExpense(data) {
+export interface ExpenseEntry {
+  _id?: string;
+  user_id?: string;
+  date: string;
+  amount: number;
+  category: string;
+  receipt_image_url: string;
+  description?: string;
+  status?: 'pending' | 'approved' | 'rejected';
+  manager_comment?: string;
+}
+
+export async function submitExpense(data: ExpenseEntry): Promise<any> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'expenses',
       data: {
         action: 'create',
@@ -17,7 +29,7 @@ export async function submitExpense(data) {
     } else {
       throw new Error(res.result.message || 'Submission failed')
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('Expense error:', err)
     uni.showToast({
       title: err.message || 'Submission failed',
@@ -27,9 +39,9 @@ export async function submitExpense(data) {
   }
 }
 
-export async function getMyExpenses() {
+export async function getMyExpenses(): Promise<ExpenseEntry[]> {
   try {
-    const res = await uniCloud.callFunction({
+    const res: any = await uniCloud.callFunction({
       name: 'expenses',
       data: {
         action: 'listMine'
