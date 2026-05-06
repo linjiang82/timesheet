@@ -1,0 +1,39 @@
+{
+  "bsonType": "object",
+  "permission": {
+    "read": "auth.uid == doc._id || 'manager' in auth.role",
+    "create": false,
+    "update": "auth.uid == doc._id",
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID"
+    },
+    "openid": {
+      "bsonType": "string",
+      "description": "WeChat OpenID"
+    },
+    "nickname": {
+      "bsonType": "string",
+      "description": "User nickname"
+    },
+    "avatar_url": {
+      "bsonType": "string",
+      "description": "User avatar URL"
+    },
+    "role": {
+      "bsonType": "string",
+      "description": "User role: employee or manager",
+      "enum": ["employee", "manager"]
+    },
+    "created_at": {
+      "bsonType": "timestamp",
+      "description": "Created at"
+    },
+    "updated_at": {
+      "bsonType": "timestamp",
+      "description": "Updated at"
+    }
+  }
+}

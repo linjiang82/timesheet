@@ -1,0 +1,49 @@
+{
+  "bsonType": "object",
+  "permission": {
+    "read": "auth.uid == doc.user_id || 'manager' in auth.role",
+    "create": "auth.uid != null",
+    "update": "auth.uid == doc.user_id || 'manager' in auth.role",
+    "delete": "auth.uid == doc.user_id && doc.status == 'pending'"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "User ID",
+      "foreignKey": "users._id"
+    },
+    "date": {
+      "bsonType": "string",
+      "description": "Date of timesheet (YYYY-MM-DD)"
+    },
+    "hours": {
+      "bsonType": "double",
+      "description": "Hours worked"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "Project or task description"
+    },
+    "status": {
+      "bsonType": "string",
+      "description": "Approval status",
+      "enum": ["pending", "approved", "rejected"],
+      "defaultValue": "pending"
+    },
+    "manager_comment": {
+      "bsonType": "string",
+      "description": "Comment from manager"
+    },
+    "created_at": {
+      "bsonType": "timestamp",
+      "description": "Created at"
+    },
+    "updated_at": {
+      "bsonType": "timestamp",
+      "description": "Updated at"
+    }
+  }
+}
